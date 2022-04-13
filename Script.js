@@ -70,10 +70,42 @@ class Calculator{
         this.previousOutput = ''
     }
 
+    //Helper method to display the commas
+    getDisplayNumber(number)
+    {
+        const stringNumber = number.toString()
+        //Turns stringNumber into an array of 2, before and after the decimal
+        const integerDigits = parseFloat(stringNumber.split('.')[0])
+        const DecimalDigits = stringNumber.split('.')[1]
+        let integerDisplay
+        if (isNaN(integerDigits)){
+            integerDisplay = ''
+        }
+        else{
+            integerDisplay = integerDigits.toLocaleString('en', {
+                maximumFractionDigits: 0 })
+        }
+        if(DecimalDigits != null ) {
+            return `${integerDisplay}.${DecimalDigits}`
+        }
+        else{
+            return integerDisplay
+        }
+    }
+
     updateDisplay()
     {
-        this.currentOutputText.innerText = this.currentOutput
-        this.previousOutputText.innerText = this.previousOutput
+        this.currentOutputText.innerText =
+             this.getDisplayNumber(this.currentOutput)
+        //If has an operation, display the operand element "+"
+        if(this.operation != null) {
+            this.previousOutputText.innerText = 
+            `${this.getDisplayNumber(this.previousOutput)} ${this.operation}`
+            //I'm not sure what the `'s are for
+        }
+        else{
+            this.previousOutputText.innerText = ''
+        }
     }
 }
 
